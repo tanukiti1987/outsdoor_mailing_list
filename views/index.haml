@@ -4,7 +4,7 @@
 %h2
   メールを受け取れるようにする
 
-  %form{ method: 'post', action: '/subscript' }
+  %form{ method: 'post', action: '/subscribe' }
     %p
       メールアドレス
       %input{ type: 'text', name: 'email' }
@@ -14,7 +14,7 @@
 %h2
   メールを受け取らないようにする
 
-  %form{ method: 'post', action: '/unsubscript' }
+  %form{ method: 'post', action: '/unsubscribe' }
     %p
       メールアドレス
       %input{ type: 'text', name: 'email' }
