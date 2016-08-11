@@ -1,2 +1,24 @@
-%h1 index.haml
+%h1
+  アウトドアサークル同窓会メーリングリスト
+
+%h2
+  メールを受け取れるようにする
+
+  %form{ method: 'post', action: '/subscript' }
+    %p
+      メールアドレス
+      %input{ type: 'text', name: 'email' }
+    %p
+      %input{ type: 'submit', value: '送信する' }
+
+%h2
+  メールを受け取らないようにする
+
+  %form{ method: 'post', action: '/unsubscript' }
+    %p
+      メールアドレス
+      %input{ type: 'text', name: 'email' }
+    %p
+      %input{ type: 'submit', value: '送信する' }
+
 = haml :"shared/hoge"
