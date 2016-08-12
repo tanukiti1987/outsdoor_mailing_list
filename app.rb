@@ -69,15 +69,23 @@ class App < Sinatra::Base
     haml :unexpected_error
   end
 
+  get '/already_subscribed' do
+    haml :already_subscribed
+  end
+
+  get '/subscribed' do
+    haml :subscribed
+  end
+
   post '/subscribe' do
     begin
       response = mg_client.get("lists/#{mailing_list_address}/members/#{params['email']}").to_h
       if response.to_h.dig("member", "subscribed")
-        "同窓会のメールを受け取れるようになっています"
+        redirect to('/already_subscribed')
       else
         mg_client.put("lists/#{mailing_list_address}/members/#{params['email']}", { subscribed: true })
         send_receipt_mail(address: params['email'], type: :subscribe)
-        '同窓会のメールを受け取るように変更しました'
+        redirect to('/subscribed')
       end
     rescue Mailgun::CommunicationError => e
       mg_client.post(
@@ -85,10 +93,18 @@ class App < Sinatra::Base
         { subscribed: true, address: params['email'], vars: { created_at: Time.now }.to_json
       })
       send_receipt_mail(address: params['email'], type: :subscribe)
-      '同窓会のメールを受け取るように変更しました'
+      redirect to('/subscribed')
     rescue => e
       redirect to('/unexpected_error')
     end
+  end
+
+  get '/unsubscribed' do
+    haml :unsubscribed
+  end
+
+  get '/not_a_member' do
+    haml :not_a_member
   end
 
   post '/unsubscribe' do
@@ -97,21 +113,14 @@ class App < Sinatra::Base
       if response.to_h.dig("member", "subscribed")
         mg_client.put("lists/#{mailing_list_address}/members/#{params['email']}", { subscribed: false })
         send_receipt_mail(address: params['email'], type: :unsubscribe)
-        '同窓会のメールを解除しました'
+        redirect to('/unsubscribed')
       else
-        '同窓会のメールは受け取らない設定になっています'
+        redirect to('/not_a_member')
       end
     rescue Mailgun::CommunicationError => e
-      '[e]同窓会のメールは受け取らない設定になっています'
+      redirect to('/not_a_member')
     rescue => e
       redirect to('/unexpected_error')
     end
-  end
-
-  get %r{^/(stylesheets|javascripts)/(.*)\.(css|js)$} do
-    dir = params[:captures][0]
-    file = params[:captures][1]
-    method = params[:captures][2] == 'css' ? :scss : :coffee
-    send(method, :"assets/#{dir}/#{file}")
   end
 end
