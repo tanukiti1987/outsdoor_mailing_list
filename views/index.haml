@@ -38,7 +38,7 @@
                 %span.glyphicon.glyphicon-envelope
               %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
               .input-group-btn
-                %button.btn.btn-default{ type: 'button' } 登録
+                %button.btn.btn-default.submit{ type: 'button' } 登録
 
   .col-sm-6.col-xs-12
     .thumbnail
@@ -52,4 +52,11 @@
                 %span.glyphicon.glyphicon-envelope
               %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
               .input-group-btn
-                %button.btn.btn-default{ type: 'button' } 解除
+                %button.btn.btn-default.submit{ type: 'button' } 解除
+
+:javascript
+  jQuery(function($){
+    $('button.submit').on('click', function(e){
+      $(e.currentTarget).closest('form').submit();
+    });
+  });
