@@ -14,4 +14,6 @@ gem "coffee-script"
 
 gem "mailgun-ruby", "~> 1.1.0", require: "mailgun"
 
-gem "pry"
+group :development do
+  gem "pry"
+end

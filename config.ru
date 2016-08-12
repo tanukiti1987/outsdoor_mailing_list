@@ -1,7 +1,7 @@
 VALID_SESSION_TERM = 60 * 60 * 3 # sec
 
 require 'bundler'
-Bundler.require
+Bundler.require(:default, ENV['RACK_ENV'])
 
 require 'pry' unless ENV['RACK_ENV'] == 'production'
 
