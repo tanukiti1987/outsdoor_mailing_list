@@ -1,29 +1,54 @@
 .row-fluid
-  .span1
-  .span10
-    %img.center{ src: 'img/dousoukai.png' }
+  .col-md-12.page_title
+    %img{ src: 'images/dousoukai.png', alt: '同窓会' }
     %h1
-      アウトドアサークル同窓会メーリングリスト
-  .span1
+      会津大学アウトドアサークル
+      %br
+      同窓会メーリングリスト
 
-%h2
-  メールを受け取れるようにする
+.row-fluid
+  .col-md-1
+  .col-md-10
+    .well.well-large
+      会津大学/会津短期大学のアウトドアサークルの同窓生のためのメーリングリストです。
+      %br
+      このページでは、メーリングリストのメンバーにはいったり、ぬけたりすることができます。
+      %br
+      定期的に開催される同窓会や、各地にいったるメンバーとの交流をはかるときに、気軽につかってください。
+      %br
+      メールのやり取りにつかれてメンバーからぬけた時には、おかえりをお待ちしています。
+  .col-md-11
 
-  %form{ method: 'post', action: '/subscribe' }
-    %p
-      メールアドレス
-      %input{ type: 'text', name: 'email' }
-    %p
-      %input{ type: 'submit', value: '送信する' }
+.row-fluid
+  .col-sm-6.col-xs-12
+    .thumbnail
+      %img{ src: 'images/sns_happy.png', alt: '入隊' }
+      .caption
+        %h2 メンバーにはいる
+        %p
+          .alert.alert-warning{ role: 'alert' }
+            登録するメールアドレスが
+            %code outsdoor.club
+            ドメインの受信を許可していることを確認してください
 
-%h2
-  メールを受け取らないようにする
+        %p
+          %form{ method: 'post', action: '/subscribe' }
+            .input-group
+              %span#sizing-addon2.input-group-addon
+                %span.glyphicon.glyphicon-envelope
+              %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
+              .input-group-btn
+                %button.btn.btn-default{ type: 'button' } 登録
 
-  %form{ method: 'post', action: '/unsubscribe' }
-    %p
-      メールアドレス
-      %input{ type: 'text', name: 'email' }
-    %p
-      %input{ type: 'submit', value: '送信する' }
-
-= haml :"shared/hoge"
+  .col-sm-6.col-xs-12
+    .thumbnail
+      %img{ src: 'images/sns_tsukare.png', alt: '脱退' }
+      .caption
+        %h2 メンバーからぬける
+        %p
+          .input-group
+            %span#sizing-addon2.input-group-addon
+              %span.glyphicon.glyphicon-envelope
+            %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
+            .input-group-btn
+              %button.btn.btn-default{ type: 'button' } 解除
