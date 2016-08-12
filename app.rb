@@ -57,6 +57,10 @@ class App < Sinatra::Base
     end
   end
 
+  get '/robot.txt' do
+    erb :"robot.txt"
+  end
+
   get '/' do
     haml :index
   end
