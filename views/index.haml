@@ -46,9 +46,10 @@
       .caption
         %h2 メンバーからぬける
         %p
-          .input-group
-            %span#sizing-addon2.input-group-addon
-              %span.glyphicon.glyphicon-envelope
-            %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
-            .input-group-btn
-              %button.btn.btn-default{ type: 'button' } 解除
+          %form{ method: 'post', action: '/unsubscribe' }
+            .input-group
+              %span#sizing-addon2.input-group-addon
+                %span.glyphicon.glyphicon-envelope
+              %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
+              .input-group-btn
+                %button.btn.btn-default{ type: 'button' } 解除
