@@ -65,6 +65,10 @@ class App < Sinatra::Base
     haml :invalid_address
   end
 
+  get '/unexpected_error' do
+    haml :unexpected_error
+  end
+
   post '/subscribe' do
     begin
       response = mg_client.get("lists/#{mailing_list_address}/members/#{params['email']}").to_h
