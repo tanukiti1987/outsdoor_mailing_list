@@ -23,7 +23,7 @@ class App < Sinatra::Base
         subject = '[outdoor] アウトドアサークル同窓会メーリングリストのメンバーになりました'
         message = erb :receipt_subscribe
       when :unsubscribe
-        subject = '[outdoor] アウトドアサークル同窓会メーリングリストの購読を解除しました'
+        subject = '[outdoor] アウトドアサークル同窓会メーリングリストのメンバーからはずれました'
         message = erb :receipt_unsubscribe
       else
         return
