@@ -6,6 +6,8 @@ ruby '2.3.1'
 gem "sinatra", require: "sinatra/base"
 gem "sinatra-contrib", require: "sinatra/contrib/all"
 
+gem "rake"
+
 gem "rack-ssl", "~> 1.4"
 
 gem "haml"
