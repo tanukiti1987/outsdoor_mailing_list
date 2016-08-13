@@ -118,7 +118,7 @@ class App < Sinatra::Base
       send_mail(
         from: no_reply_address,
         to: ENV['ADMIN_ADDRESS'],
-        subject: "購読処理中にエラーがおきました (#{e.name})",
+        subject: "購読登録処理中にエラーがおきました (#{e.name})",
         text: e.backtrace)
     end
   end
@@ -149,12 +149,29 @@ class App < Sinatra::Base
   end
 
   post '/unsubscribe' do
+    address = params['sender']
+
+    begin
+      response = mg_client.get("lists/#{mailing_list_address}/members/#{address}").to_h
+      if response.to_h.dig("member", "subscribed")
+        mg_client.put("lists/#{mailing_list_address}/members/#{address}", { subscribed: false })
+        send_completed_mail(address: address, type: :unsubscribed)
+      end
+    rescue => e
+      send_mail(
+        from: no_reply_address,
+        to: ENV['ADMIN_ADDRESS'],
+        subject: "購読解除処理中にエラーがおきました (#{e.name})",
+        text: e.backtrace)
+    end
+  end
+
+  post '/unsubscribe_confirm' do
     begin
       response = mg_client.get("lists/#{mailing_list_address}/members/#{params['email']}").to_h
       if response.to_h.dig("member", "subscribed")
-        mg_client.put("lists/#{mailing_list_address}/members/#{params['email']}", { subscribed: false })
         send_confirmation_mail(address: params['email'], type: :unsubscribe)
-        redirect to('/unsubscribed')
+        haml :unsubscribe_confirm
       else
         redirect to('/not_a_member')
       end
