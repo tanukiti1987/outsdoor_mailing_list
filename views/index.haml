@@ -32,11 +32,11 @@
             ドメインの受信を許可していることを確認してください
 
         %p
-          %form{ method: 'post', action: '/subscribe' }
+          %form{ method: 'post', action: '/subscribe_confirm' }
             .input-group
               %span#sizing-addon2.input-group-addon
                 %span.glyphicon.glyphicon-envelope
-              %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
+              %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'your@address.com' }
               .input-group-btn
                 %button.btn.btn-default.submit{ type: 'button' } 登録
 
@@ -46,11 +46,11 @@
       .caption
         %h2 メンバーからぬける
         %p
-          %form{ method: 'post', action: '/unsubscribe' }
+          %form{ method: 'post', action: '/unsubscribe_confirm' }
             .input-group
               %span#sizing-addon2.input-group-addon
                 %span.glyphicon.glyphicon-envelope
-              %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'example@youraddress.com' }
+              %input.form-control{ type: 'text', name: 'email', 'aria-describedby': 'sizing-addon2', placeholder: 'your@address.com' }
               .input-group-btn
                 %button.btn.btn-default.submit{ type: 'button' } 解除
 

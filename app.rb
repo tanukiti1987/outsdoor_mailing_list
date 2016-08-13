@@ -16,23 +16,29 @@ class App < Sinatra::Base
       public_mg_client.get("address/validate", address: address).to_h["is_valid"]
     end
 
-    def send_receipt_mail(address:, type:)
+    def send_confirmation_mail(address:, type:)
       subject, message = '', ''
       case type
       when :subscribe
-        subject = '[outdoor] アウトドアサークル同窓会メーリングリストのメンバーになりました'
+        from = "subscribe_confirm@#{domain}"
+        subject = '【要返信】アウトドアサークル同窓会メーリングリストのメンバー登録確認'
         message = erb :receipt_subscribe
       when :unsubscribe
-        subject = '[outdoor] アウトドアサークル同窓会メーリングリストのメンバーからはずれました'
+        from = "unsubscribe_confirm@#{domain}"
+        subject = '【要返信】アウトドアサークル同窓会メーリングリストのメンバー登録確認'
         message = erb :receipt_unsubscribe
       else
         return
       end
 
-      message_params =  { from: no_reply_address,
-                          to: address,
+      send_mail(from: from, to: address, subject: subject, text: message)
+    end
+
+    def send_mail(from:, to:, subject:, text:)
+      message_params =  { from: from,
+                          to: to,
                           subject: subject,
-                          text: message,
+                          text: text,
                         }
 
       mg_client.send_message domain, message_params
@@ -51,7 +57,7 @@ class App < Sinatra::Base
     end
   end
 
-  before %r{^/(|un)subscribe$} do
+  before %r{^/(|un)subscribe_confirm$} do
     if params['email'].nil? || !valid_address?(params['email'])
       redirect to('/invalid_address')
     end
@@ -77,27 +83,27 @@ class App < Sinatra::Base
     haml :already_subscribed
   end
 
-  get '/subscribed' do
-    haml :subscribed
+  post '/subscribe' do
+    send_mail(from: no_reply_address, to: params['email'], subject: 'test', text: request.inspect)
   end
 
-  post '/subscribe' do
+  post '/subscribe_confirm' do
     begin
       response = mg_client.get("lists/#{mailing_list_address}/members/#{params['email']}").to_h
       if response.to_h.dig("member", "subscribed")
         redirect to('/already_subscribed')
       else
-        mg_client.put("lists/#{mailing_list_address}/members/#{params['email']}", { subscribed: true })
-        send_receipt_mail(address: params['email'], type: :subscribe)
-        redirect to('/subscribed')
+        # mg_client.put("lists/#{mailing_list_address}/members/#{params['email']}", { subscribed: true })
+        send_confirmation_mail(address: params['email'], type: :subscribe)
+        haml :subscribe_confirm
       end
     rescue Mailgun::CommunicationError => e
-      mg_client.post(
-        "lists/#{mailing_list_address}/members",
-        { subscribed: true, address: params['email'], vars: { created_at: Time.now }.to_json
-      })
-      send_receipt_mail(address: params['email'], type: :subscribe)
-      redirect to('/subscribed')
+      # mg_client.post(
+      #   "lists/#{mailing_list_address}/members",
+      #   { subscribed: true, address: params['email'], vars: { created_at: Time.now }.to_json
+      # })
+      send_confirmation_mail(address: params['email'], type: :subscribe)
+      haml :subscribe_confirm
     rescue => e
       redirect to('/unexpected_error')
     end
@@ -116,7 +122,7 @@ class App < Sinatra::Base
       response = mg_client.get("lists/#{mailing_list_address}/members/#{params['email']}").to_h
       if response.to_h.dig("member", "subscribed")
         mg_client.put("lists/#{mailing_list_address}/members/#{params['email']}", { subscribed: false })
-        send_receipt_mail(address: params['email'], type: :unsubscribe)
+        send_confirmation_mail(address: params['email'], type: :unsubscribe)
         redirect to('/unsubscribed')
       else
         redirect to('/not_a_member')
