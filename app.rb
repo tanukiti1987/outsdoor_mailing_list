@@ -21,11 +21,11 @@ class App < Sinatra::Base
       case type
       when :subscribe
         from = "subscribe_confirm@#{domain}"
-        subject = '【要返信】アウトドアサークル同窓会メーリングリストのメンバー登録確認'
+        subject = '【このまま返信】アウトドアサークル同窓会メーリングリストのメンバー登録の確認'
         message = erb :subscribe_confirm
       when :unsubscribe
         from = "unsubscribe_confirm@#{domain}"
-        subject = '【要返信】アウトドアサークル同窓会メーリングリストのメンバー登録確認'
+        subject = '【このまま返信】アウトドアサークル同窓会メーリングリストのメンバー解除の確認'
         message = erb :unsubscribe_confirm
       else
         return
