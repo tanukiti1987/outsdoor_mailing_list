@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/flori/json
+  revision: c7a6e31f3abde6efbf0629dea68b43bebb62c94a
+  branch: v1.8
+  specs:
+    json (1.8.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -14,7 +21,6 @@ GEM
       tilt
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    json (1.8.3)
     mailgun-ruby (1.1.0)
       json (~> 1.8)
       rest-client (~> 1.6)
@@ -62,6 +68,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-script
   haml
+  json!
   mailgun-ruby (~> 1.1.0)
   pry
   rack-ssl (~> 1.4)
@@ -71,7 +78,7 @@ DEPENDENCIES
   sinatra-contrib
 
 RUBY VERSION
-   ruby 2.3.1p112
+   ruby 2.4.0p0
 
 BUNDLED WITH
-   1.12.4
+   1.13.7
