@@ -1,10 +1,8 @@
-require 'pry'
-
-task default: 'assets:precompile'
-
 namespace :assets do
   desc 'Compile scss/coffee to css/js'
   task :precompile do
+    next if ENV['RACK_ENV'] == 'production'
+
     # from scss to css
     file_list = FileList.new('assets/stylesheets/*.scss')
     file_list.each do |file|
