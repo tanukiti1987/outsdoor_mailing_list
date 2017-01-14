@@ -14,6 +14,7 @@ gem "rack-ssl", "~> 1.4"
 
 gem "haml"
 gem "sass"
+gem "therubyracer"
 gem "coffee-script"
 
 gem "mailgun-ruby", "~> 1.1.0", require: "mailgun"

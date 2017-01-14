@@ -1,3 +1,5 @@
+require 'execjs'
+
 namespace :assets do
   desc 'Compile scss/coffee to css/js'
   task :precompile do
