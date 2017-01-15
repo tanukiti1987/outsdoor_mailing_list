@@ -18,5 +18,7 @@ RUN bundle -j8
 RUN npm install
 ENV PATH $PATH:/app/node_modules/.bin
 RUN rake assets:precompile
-EXPOSE 4567
-CMD ["bundle", "exec", "rackup", "-p", "4567", "-o", "0.0.0.0"]
+
+# EXPOSEE does not be recommended by heroku
+#EXPOSE 4567
+CMD bundle exec rackup -p $PORT -o 0.0.0.0
