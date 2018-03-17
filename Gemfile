@@ -3,8 +3,8 @@ source "https://rubygems.org"
 
 ruby '2.4.0'
 
-gem "sinatra", require: "sinatra/base"
-gem "sinatra-contrib", require: "sinatra/contrib/all"
+gem "sinatra", "~> 2.0", require: "sinatra/base"
+gem "sinatra-contrib", "~> 2.0", require: "sinatra/contrib/all"
 
 gem "rake"
 
