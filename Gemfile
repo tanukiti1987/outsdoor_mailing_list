@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-ruby '2.4.0'
+ruby '2.4.1'
 
 gem "sinatra", "~> 2.0", require: "sinatra/base"
 gem "sinatra-contrib", "~> 2.0", require: "sinatra/contrib/all"
